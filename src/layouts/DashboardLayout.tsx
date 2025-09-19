@@ -8,25 +8,57 @@ import { SideBarLayout } from "./SideBarLayout";
 import { orderHistory } from "@/utils/helper";
 
 export function DashboardLayout() {
-  const { isNotificationPanelActive, activeIndexServicesCard } = useGlobalStore();
+  const { isNotificationPanelActive, activeIndexServicesCard, activeChildIndexServicesCard } = useGlobalStore();
   const pathname = usePathname();
 
   const generateBreadcrumbs = () => {
     const pathSegments = pathname.split("/").filter((segment) => segment);
-    const breadcrumbs = pathSegments.map((segment, index) => {
-      const href = "/" + pathSegments.slice(0, index + 1).join("/");
-      console.log("pathsegment", segment);
-      return { href, label: decodeURIComponent(segment) };
+    
+    if (pathSegments.length === 0) {
+      return [];
+    }
+    
+    const breadcrumbs = [];
+    
+    // First segment (dashboard or pages)
+    const firstSegment = pathSegments[0];
+    breadcrumbs.push({
+      href: `/${firstSegment}`,
+      label: firstSegment
     });
     
-    if (pathSegments.length > 1) {
-      breadcrumbs.splice(1, 0, {
-        href: `/${pathSegments[0]}`,
-        label: activeIndexServicesCard,
+    // If we're on base dashboard (/dashboard), add the active menu item
+    if (pathSegments.length === 1 && firstSegment === 'dashboard') {
+      breadcrumbs.push({
+        href: pathname,
+        label: activeIndexServicesCard.toLowerCase()
       });
-    } else if (pathSegments.length === 1 && activeIndexServicesCard !== "Default") {
-      breadcrumbs[0].label = activeIndexServicesCard;
     }
+    
+    // If we have a slug (/dashboard/something), handle it properly
+    if (pathSegments.length > 1) {
+      const slug = decodeURIComponent(pathSegments[1]);
+      
+      // Check if we have an active child (indicating this is a child route)
+      if (activeChildIndexServicesCard && activeChildIndexServicesCard !== "Default") {
+        // This is a child route: dashboard -> parent -> child
+        breadcrumbs.push({
+          href: `/${firstSegment}`,
+          label: activeIndexServicesCard.toLowerCase()
+        });
+        breadcrumbs.push({
+          href: pathname,
+          label: activeChildIndexServicesCard.toLowerCase()
+        });
+      } else {
+        // This is a direct menu item route: dashboard -> item
+        breadcrumbs.push({
+          href: pathname,
+          label: slug
+        });
+      }
+    }
+    
     console.log("breadcrumbs", breadcrumbs);
     return breadcrumbs;
   };
