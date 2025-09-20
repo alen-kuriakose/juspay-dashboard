@@ -470,10 +470,10 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     <Image src={add} alt="add" className="dark:invert dark:hover:invert-0" />
                   </button>
                 </SheetTrigger>
-                <SheetContent className="w-[400px] sm:w-[540px] bg-white dark:bg-black/80 ">
+                <SheetContent className="w-full max-w-[320px] xs:max-w-[350px] sm:max-w-[540px] bg-white dark:bg-black/80">
                   <SheetHeader>
-                    <SheetTitle className="text-dark dark:text-white">Add New Order</SheetTitle>
-                    <SheetDescription className="text-gray-600 dark:text-gray-300">
+                    <SheetTitle className="text-dark dark:text-white text-sm xs:text-base">Add New Order</SheetTitle>
+                    <SheetDescription className="text-gray-600 dark:text-gray-300 text-xs xs:text-sm">
                       Create a new order by filling out the information below. Fields marked with * are required.
                     </SheetDescription>
                   </SheetHeader>
@@ -491,68 +491,68 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     </div>
                   )}
 
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="user" className="text-right font-medium text-dark dark:text-white">
+                  <div className="grid gap-3 xs:gap-4 py-4">
+                    <div className="grid grid-cols-1 xs:grid-cols-4 items-center gap-2 xs:gap-4">
+                      <label htmlFor="user" className="xs:text-right font-medium text-dark dark:text-white text-sm">
                         User *
                       </label>
                       <Input
                         id="user"
                         placeholder="Enter user name"
-                        className="col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                        className="xs:col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
                         value={newOrder.user}
                         onChange={(e) => handleInputChange('user', e.target.value)}
                       />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="project" className="text-right font-medium text-dark dark:text-white">
+                    <div className="grid grid-cols-1 xs:grid-cols-4 items-center gap-2 xs:gap-4">
+                      <label htmlFor="project" className="xs:text-right font-medium text-dark dark:text-white text-sm">
                         Project *
                       </label>
                       <Input
                         id="project"
                         placeholder="Enter project name"
-                        className="col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                        className="xs:col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
                         value={newOrder.project}
                         onChange={(e) => handleInputChange('project', e.target.value)}
                       />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="address" className="text-right font-medium text-dark dark:text-white">
+                    <div className="grid grid-cols-1 xs:grid-cols-4 items-center gap-2 xs:gap-4">
+                      <label htmlFor="address" className="xs:text-right font-medium text-dark dark:text-white text-sm">
                         Address *
                       </label>
                       <Input
                         id="address"
                         placeholder="Enter address"
-                        className="col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                        className="xs:col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
                         value={newOrder.address}
                         onChange={(e) => handleInputChange('address', e.target.value)}
                       />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="date" className="text-right font-medium text-dark dark:text-white">
+                    <div className="grid grid-cols-1 xs:grid-cols-4 items-center gap-2 xs:gap-4">
+                      <label htmlFor="date" className="xs:text-right font-medium text-dark dark:text-white text-sm">
                         Date
                       </label>
                       <Input
                         id="date"
                         placeholder="Leave empty for 'Just now'"
-                        className="col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                        className="xs:col-span-3 bg-white dark:bg-black border-gray-300 dark:border-gray-600 text-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
                         value={newOrder.date}
                         onChange={(e) => handleInputChange('date', e.target.value)}
                       />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="status" className="text-right font-medium text-dark dark:text-white">
+                    <div className="grid grid-cols-1 xs:grid-cols-4 items-center gap-2 xs:gap-4">
+                      <label htmlFor="status" className="xs:text-right font-medium text-dark dark:text-white text-sm">
                         Status
                       </label>
                       <Select
                         value={newOrder.status}
                         onValueChange={(value) => handleInputChange('status', value)}
                       >
-                        <SelectTrigger className="col-span-3 bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
+                        <SelectTrigger className="xs:col-span-3 bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent className="bg-white dark:bg-black border-gray-200 dark:border-gray-700">
-                          <SelectItem value="Pending" className="text-gray-900 dark:text-white hover:!text-gray-800 hover:!bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white">
+                          <SelectItem value="Pending" className="text-gray-900 dark:text-white hover:!text-gray-800 hover:!bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white ">
                             Pending
                           </SelectItem>
                           <SelectItem value="In Progress" className="text-gray-900 dark:text-white hover:!text-gray-800 hover:!bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -599,10 +599,10 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     )}
                   </button>
                 </SheetTrigger>
-                <SheetContent className="w-[400px] sm:w-[540px] bg-[#fafafa] dark:bg-[#0a0a0a] border-l border-[#f0f0f0] dark:border-[#1a1a1a]">
+                <SheetContent className="w-full max-w-[320px] xs:max-w-[350px] sm:max-w-[540px] bg-[#fafafa] dark:bg-[#0a0a0a] border-l border-[#f0f0f0] dark:border-[#1a1a1a] ">
                   <SheetHeader>
-                    <SheetTitle className="text-[#1a1a1a] dark:text-[#fafafa]">Filter Orders</SheetTitle>
-                    <SheetDescription className="text-[#6b7280] dark:text-[#9ca3af]">
+                    <SheetTitle className="text-[#1a1a1a] dark:text-[#fafafa] text-sm xs:text-base">Filter Orders</SheetTitle>
+                    <SheetDescription className="text-[#6b7280] dark:text-[#9ca3af] text-xs xs:text-sm">
                       Filter your orders by status, user, project, or date range.
                     </SheetDescription>
                   </SheetHeader>
@@ -1051,7 +1051,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                                   console.error('Failed to copy address:', err);
                                 });
                               }}
-                              className="ml-1 flex-shrink-0 w-3 h-3 md:w-4 md:h-4 hover:bg-gray-200 dark:hover:bg-gray-700 rounded p-0.5 transition-colors"
+                              className="ml-1 flex-shrink-0 w-4 h-4 md:w-5 md:h-5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded p-0.5 transition-colors"
                               title="Copy address to clipboard"
                               aria-label="Copy address to clipboard"
                             >
@@ -1092,7 +1092,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                       <TableCell
                         className={cn(
                           "w-12 px-1 text-center md:px-3 rounded-r-xl",
-                          activeRow == index ? "opacity-100" : "opacity-0"
+                          activeRow == index || selectedRows.has(index) ? "opacity-100" : "opacity-0"
                         )}
                         onClick={(e) => e.stopPropagation()}
                       >

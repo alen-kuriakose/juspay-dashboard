@@ -87,7 +87,7 @@ export function DashboardLayout() {
   const breadcrumbs = generateBreadcrumbs();
 
   return (
-    <div className=" grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr] overflow-hidden">
+    <div className=" sm:grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr] overflow-hidden">
       <SideBarLayout breadcrumbsArray={breadcrumbs} />
       <div className="w-full flex">
         <div className="flex w-full">
