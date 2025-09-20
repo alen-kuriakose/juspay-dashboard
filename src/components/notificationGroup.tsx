@@ -69,17 +69,18 @@ export function NotificationGroup({
                       : "bg-accent-foreground  dark:bg-[#E5ECF6] "
                   )}
                 >
-                  <Image
+                                    <Image
                     src={item.icon}
-                    alt={""}
+                    alt={`${item.title} icon`}
                     className={cn(
+                      "dark:invert",
                       index % 2 == 0 ? "" : "bg-accent-foreground "
                     )}
                   />
                 </div>
               ) : (
                 <div className={cn("flex-shrink-0 h-fit relative border-4 border-solid rounded-full border-white md:dark:border-black dark:border-dark" )}>
-                  <Image src={item.icon} alt={""} className={cn("")} />
+                  <Image src={item.icon} alt={`${item.title} avatar`} className={cn("")} />
                 </div>
               )}
               <div className="">

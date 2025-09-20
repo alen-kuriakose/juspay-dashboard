@@ -466,7 +466,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
             <div className="p-1">
               <Sheet open={isAddOrderOpen} onOpenChange={handleOpenChange}>
                 <SheetTrigger asChild>
-                  <button className="p-1 hover:!text-gray-800 hover:!bg-gray-200 dark:hover:bg-gray-700 rounded">
+                  <button className="p-1 hover:!text-gray-800 hover:!bg-gray-200 dark:hover:bg-gray-700 rounded" aria-label="Add new order">
                     <Image src={add} alt="add" className="dark:invert dark:hover:invert-0" />
                   </button>
                 </SheetTrigger>
@@ -592,7 +592,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
             <div className="p-1">
               <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
                 <SheetTrigger asChild>
-                  <button className={`p-1 hover:!text-[#1a1a1a] hover:!bg-[#f5f5f5] dark:hover:bg-[#374151] rounded relative transition-colors ${hasActiveFilters() ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-[#6b7280] dark:text-[#9ca3af]'}`}>
+                  <button className={`p-1 hover:!text-[#1a1a1a] hover:!bg-[#f5f5f5] dark:hover:bg-[#374151] rounded relative transition-colors ${hasActiveFilters() ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-[#6b7280] dark:text-[#9ca3af]'}`} aria-label="Filter orders">
                     <Image src={filter} alt="filter" className="dark:invert dark:hover:invert-0" />
                     {hasActiveFilters() && (
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -733,7 +733,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
             <div className="p-1">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="p-1 hover:!text-gray-800 hover:!bg-gray-200  dark:hover:bg-gray-700 rounded">
+                  <button className="p-1 hover:!text-gray-800 hover:!bg-gray-200  dark:hover:bg-gray-700 rounded" aria-label="Sort orders">
                     <Image 
                       src={sort} 
                       alt="sort" 
@@ -1029,7 +1029,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                       <TableCell className="w-48 px-2 md:px-3">
                         <div className="flex gap-1 items-center">
                           <div className="flex-shrink-0">
-                            <Image src={order.icon} alt="user" className="w-6 h-6 md:w-8 md:h-8" />
+                            <Image src={order.icon} alt={`${order.user} avatar`} className="w-6 h-6 md:w-8 md:h-8" />
                           </div>
                           <span className="truncate">{order.user}</span>
                         </div>
@@ -1053,10 +1053,11 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                               }}
                               className="ml-1 flex-shrink-0 w-3 h-3 md:w-4 md:h-4 hover:bg-gray-200 dark:hover:bg-gray-700 rounded p-0.5 transition-colors"
                               title="Copy address to clipboard"
+                              aria-label="Copy address to clipboard"
                             >
                               <Image
                                 src={clipboard}
-                                alt="copy"
+                                alt="Copy to clipboard"
                                 className="dark:invert w-full h-full"
                               />
                             </button>
@@ -1070,7 +1071,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                           <div className="flex-shrink-0">
                             <Image
                               src={calendar}
-                              alt="date"
+                              alt="Calendar icon"
                               className="dark:invert w-3 h-3 md:w-4 md:h-4"
                             />
                           </div>

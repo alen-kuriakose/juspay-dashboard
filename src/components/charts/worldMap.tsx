@@ -67,7 +67,11 @@ export const WorldMap = () => {
                     {location.value}
                   </TextXSmallRegular>
                 </div>
-                <Progress className="h-[2px] dark:bg-[]" value={location.progress} />
+                <Progress 
+                  className="h-[2px] dark:bg-[]" 
+                  value={location.progress} 
+                  aria-label={`Progress for ${location.city}: ${location.progress}%`}
+                />
               </div>
             );
           })}

@@ -53,13 +53,18 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
       )}
     >
       <div className="flex gap-2">
-        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
-          <Image src={sidebar} alt="" width={20} height={20} />
+        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block" aria-label="Toggle sidebar">
+          <Image src={sidebar} alt="Sidebar menu" width={20} height={20} />
         </button>
-        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:flex ">
+                <button
+          className={cn(
+            "p-1 transition-transform duration-200 ease-in-out text-yellow-500 md:hover:scale-105"
+          )}
+          aria-label="Toggle favorites"
+        >
           <Image
             src={star}
-            alt=""
+            alt="Star icon"
             width={20}
             height={20}
             onClick={() => handleFavSelection()}
@@ -100,30 +105,32 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
             "p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out  "
           )}
           onClick={() => handleThemeChange()}
+          aria-label="Toggle theme"
         >
-          <Image src={sun} alt="" width={20} height={20} />
+          <Image src={sun} alt="Theme toggle icon" width={20} height={20} />
         </button>
-        <button className="p-1 dark:invert  transition-transform duration-200 ease-in-out">
-          <Image src={clock} alt="" width={20} height={20} />
+        <button className="p-1 dark:invert  transition-transform duration-200 ease-in-out" aria-label="View history">
+          <Image src={clock} alt="Clock icon" width={20} height={20} />
         </button>
         <button
           className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden xl:block"
           onClick={() => activateNotification()}
+          aria-label="View notifications"
         >
-          <Image src={bell} alt="" width={20} height={20} />
+          <Image src={bell} alt="Notification bell" width={20} height={20} />
         </button>
         <Sheet>
-          <SheetTrigger className="p-0 border-0">
+          <SheetTrigger className="p-0 border-0" aria-label="View notifications">
             <div className=" dark:invert md:hover:scale-105 transition-transform duration-200 ease-in-out xl:hidden block">
-              <Image src={bell} alt="" width={20} height={20} />
+              <Image src={bell} alt="Notification bell" width={20} height={20} />
             </div>
           </SheetTrigger>
           <SheetContent className="border-0 bg-white dark:bg-dark p-0">
             <NotificationPanel />
           </SheetContent>
         </Sheet>
-        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
-          <Image src={sidebar} alt="" width={20} height={20} />
+        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block" aria-label="Toggle sidebar">
+          <Image src={sidebar} alt="Sidebar menu" width={20} height={20} />
         </button>
       </div>
     </nav>
