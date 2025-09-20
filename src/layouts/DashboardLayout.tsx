@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { SideBarLayout } from "./SideBarLayout";
 import { orderHistory } from "@/utils/helper";
+import { cn } from "@/lib/utils";
 
 export function DashboardLayout() {
   const { 
@@ -14,7 +15,8 @@ export function DashboardLayout() {
     activeIndexServicesCard, 
     activeChildIndexServicesCard,
     setActiveSection,
-    activeSection
+    activeSection,
+    isSidebarCollapsed
   } = useGlobalStore();
   const pathname = usePathname();
 
@@ -87,7 +89,12 @@ export function DashboardLayout() {
   const breadcrumbs = generateBreadcrumbs();
 
   return (
-    <div className=" sm:grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr] overflow-hidden">
+    <div className={cn(
+      "sm:grid min-h-screen w-full overflow-hidden transition-all duration-300 ease-in-out",
+      isSidebarCollapsed 
+        ? "md:grid-cols-[64px_1fr] lg:grid-cols-[64px_1fr]" 
+        : "md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr]"
+    )}>
       <SideBarLayout breadcrumbsArray={breadcrumbs} />
       <div className="w-full flex">
         <div className="flex w-full">
@@ -108,7 +115,7 @@ export function DashboardLayout() {
                   );
                 default:
                   return (
-                    <div className="w-full h-full flex items-center justify-center text-dark dark:text-white">
+                    <div className="w-full min-h-[calc(100vh-80px)] md:h-full flex items-center justify-center text-dark dark:text-white p-4">
                       <div className="text-center">
                         <Header4xlSemibold className="animate-pulse">
                           Coming Soon

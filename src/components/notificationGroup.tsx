@@ -73,7 +73,7 @@ export function NotificationGroup({
                     src={item.icon}
                     alt={`${item.title} icon`}
                     className={cn(
-                      "dark:invert",
+                      " ",
                       index % 2 == 0 ? "" : "bg-accent-foreground "
                     )}
                   />

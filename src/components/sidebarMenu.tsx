@@ -21,9 +21,10 @@ interface ContentItem {
 type SidebarMenuProps = {
   content: Array<object>;
   header: string;
+  isMobile?: boolean;
 };
 
-export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
+export const SidebarMenu = ({ content, header, isMobile = false }: SidebarMenuProps) => {
   const [clicked, setclicked] = useState(false);
   const [accordionValue, setAccordionValue] = useState<string>("");
   const allowStateChange = useRef(true);
@@ -32,7 +33,8 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
     activeIndexServicesCard, 
     setActiveIndexServicesCard,
     setActiveSection,
-    activeSection
+    activeSection,
+    isSidebarCollapsed
   } = useGlobalStore();
 
   // Don't auto-set section here - let navigation handle it
@@ -46,7 +48,10 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
       );
       
       if (activeItem && activeItem.contents && activeItem.contents.length > 0) {
-        setAccordionValue(activeIndexServicesCard);
+        // If sidebar just expanded and this item was clicked, open the accordion
+        if (!isSidebarCollapsed) {
+          setAccordionValue(activeIndexServicesCard);
+        }
       } else {
         setAccordionValue("");
       }
@@ -54,7 +59,7 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
       // Clear accordion if this section is not active
       setAccordionValue("");
     }
-  }, [activeIndexServicesCard, activeSection, header, content]);
+  }, [activeIndexServicesCard, activeSection, header, isSidebarCollapsed]); // Removed 'content' from dependencies
 
   const handleActiveIndex = (index: string) => {
     allowStateChange.current = true; // Allow this state change
@@ -88,34 +93,60 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="px-3 py-1">
-        <TextSmallRegular className="inline-block font-inter text-primary/40 dark:text-white">
-          {header}
-        </TextSmallRegular>
-      </div>
+      {(!isSidebarCollapsed || isMobile) && (
+        <div className="px-3 py-1">
+          <TextSmallRegular className="inline-block font-inter text-primary/40 dark:text-white">
+            {header}
+          </TextSmallRegular>
+        </div>
+      )}
       <div className="flex flex-col gap-1 w-full">
-        <Accordion 
-          type="single" 
-          collapsible 
-          value={isCurrentSection ? accordionValue : ""}
-          onValueChange={handleAccordionValueChange}
-        >
-          {(content as MenuItem[]).map((item: MenuItem, index: number) => {
-            return (
-              <SidebarMenuItem
-                contents={item.contents}
-                title={item.title}
-                index={index}
-                isActive={isCurrentSection && item.title === activeIndexServicesCard}
-                onClick={() => handleActiveIndex(item.title)}
-                clicked={isCurrentSection && accordionValue === item.title}
-                key={index + 1}
-                url={header}
-                icon={item.icon}
-              />
-            );
-          })}
-        </Accordion>
+        {(isSidebarCollapsed && !isMobile) ? (
+          // Collapsed view - no accordion, just icons (desktop only)
+          <div className="flex flex-col gap-1">
+            {(content as MenuItem[]).map((item: MenuItem, index: number) => {
+              return (
+                <SidebarMenuItem
+                  contents={item.contents}
+                  title={item.title}
+                  index={index}
+                  isActive={isCurrentSection && item.title === activeIndexServicesCard}
+                  onClick={() => handleActiveIndex(item.title)}
+                  clicked={false} // No clicked state in collapsed mode
+                  key={index + 1}
+                  url={header}
+                  icon={item.icon}
+                  isCollapsed={true}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          // Expanded view - with accordion (desktop expanded or mobile)
+          <Accordion 
+            type="single" 
+            collapsible 
+            value={isCurrentSection ? accordionValue : ""}
+            onValueChange={handleAccordionValueChange}
+          >
+            {(content as MenuItem[]).map((item: MenuItem, index: number) => {
+              return (
+                <SidebarMenuItem
+                  contents={item.contents}
+                  title={item.title}
+                  index={index}
+                  isActive={isCurrentSection && item.title === activeIndexServicesCard}
+                  onClick={() => handleActiveIndex(item.title)}
+                  clicked={isCurrentSection && accordionValue === item.title}
+                  key={index + 1}
+                  url={header}
+                  icon={item.icon}
+                  isCollapsed={false}
+                />
+              );
+            })}
+          </Accordion>
+        )}
       </div>
     </div>
   );

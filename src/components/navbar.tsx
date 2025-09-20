@@ -29,10 +29,13 @@ type NavbaeProps = {
 };
 
 export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
-  const { isNotificationPanelActive, setNotificationPanelActive } =
+  const { isNotificationPanelActive, setNotificationPanelActive, isSidebarCollapsed, setSidebarCollapsed } =
     useGlobalStore();
   const activateNotification = () => {
     setNotificationPanelActive(!isNotificationPanelActive);
+  };
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!isSidebarCollapsed);
   };
   const { theme, setTheme } = useTheme();
   const handleThemeChange = () => {
@@ -53,21 +56,23 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
       )}
     >
       <div className="flex gap-2">
-        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block" aria-label="Toggle sidebar">
+        <button 
+          className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block" 
+          aria-label="Toggle sidebar"
+          onClick={toggleSidebar}
+        >
           <Image src={sidebar} alt="Sidebar menu" width={20} height={20} />
         </button>
-                <button
-          className={cn(
-            "p-1 transition-transform duration-200 ease-in-out text-yellow-500 md:hover:scale-105"
-          )}
+        <button
+          className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out"
           aria-label="Toggle favorites"
+          onClick={() => handleFavSelection()}
         >
           <Image
             src={star}
             alt="Star icon"
-            width={20}
-            height={20}
-            onClick={() => handleFavSelection()}
+            width={18}
+            height={18}
           />
         </button>
 
@@ -110,7 +115,7 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
           <Image src={sun} alt="Theme toggle icon" width={20} height={20} />
         </button>
         <button className="p-1 dark:invert  transition-transform duration-200 ease-in-out" aria-label="View history">
-          <Image src={clock} alt="Clock icon" width={20} height={20} />
+          <Image src={clock} alt="Clock icon" width={20} height={20} className=""/>
         </button>
         <button
           className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden xl:block"
@@ -120,18 +125,13 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
           <Image src={bell} alt="Notification bell" width={20} height={20} />
         </button>
         <Sheet>
-          <SheetTrigger className="p-0 border-0" aria-label="View notifications">
-            <div className=" dark:invert md:hover:scale-105 transition-transform duration-200 ease-in-out xl:hidden block">
-              <Image src={bell} alt="Notification bell" width={20} height={20} />
-            </div>
+          <SheetTrigger className="p-1 border-0 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out xl:hidden block" aria-label="View notifications">
+            <Image src={bell} alt="Notification bell" width={20} height={20} />
           </SheetTrigger>
           <SheetContent className="border-0 bg-white dark:bg-dark p-0">
             <NotificationPanel />
           </SheetContent>
         </Sheet>
-        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block" aria-label="Toggle sidebar">
-          <Image src={sidebar} alt="Sidebar menu" width={20} height={20} />
-        </button>
       </div>
     </nav>
   );

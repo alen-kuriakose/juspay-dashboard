@@ -13,18 +13,39 @@ import {
   recents,
 } from "@/utils/helper";
 import { FavSection } from "@/components/favSection";
+import { useGlobalStore } from "@/states/GlobalState";
+import { cn } from "@/lib/utils";
 type SideBarLayoutProps = {
   breadcrumbsArray: Array<{href:string,label:string}>;
 };
 export function SideBarLayout({ breadcrumbsArray }: SideBarLayoutProps) {
+  const { isSidebarCollapsed } = useGlobalStore();
+  
   return (
     <div>
-      <div className="hidden border-r md:block pt-5 h-full ">
-        <div className="flex h-full max-h-screen flex-col gap-4 px-4 lg:px-4">
-          <AvatarComponent avatarImg={avatar} name={"ByeWind"} />
+      <div className={cn(
+        "border-r pt-5 h-full transition-all duration-300 ease-in-out hidden md:block",
+        isSidebarCollapsed ? "w-16" : "w-[220px] lg:w-[212px]"
+      )}>
+        <div className={cn(
+          "flex h-full max-h-screen flex-col gap-4 transition-all duration-300",
+          isSidebarCollapsed ? "px-2" : "px-4 lg:px-4"
+        )}>
+          {!isSidebarCollapsed && <AvatarComponent avatarImg={avatar} name={"ByeWind"} />}
+          {isSidebarCollapsed && (
+            <div className="flex justify-center p-1">
+              <Image
+                src={avatar}
+                alt={"profile_avatar"}
+                width={24}
+                height={24}
+                className="rounded-full"
+              />
+            </div>
+          )}
           <div className="flex-1">
             <nav className="grid items-start text-sm font-medium gap-4">
-              <FavSection favList={favourites} recentList={recents} />
+              {!isSidebarCollapsed && <FavSection favList={favourites} recentList={recents} />}
               <SidebarMenu
                 header="Dashboard"
                 content={dashboardSidemenuContent}
@@ -72,8 +93,13 @@ export function SideBarLayout({ breadcrumbsArray }: SideBarLayoutProps) {
                 <SidebarMenu
                   header="Dashboard"
                   content={dashboardSidemenuContent}
+                  isMobile={true}
                 />
-                <SidebarMenu header="Pages" content={pageSidemenuContent} />
+                <SidebarMenu 
+                  header="Pages" 
+                  content={pageSidemenuContent} 
+                  isMobile={true}
+                />
               </nav>
             </SheetContent>
           </Sheet>

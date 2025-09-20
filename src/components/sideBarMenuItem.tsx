@@ -12,6 +12,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 import Link from "next/link";
 
 interface ContentItem {
@@ -27,6 +33,7 @@ interface SidebarMenuItemProps {
   contents?: Array<ContentItem>;
   clicked?: boolean;
   url: string;
+  isCollapsed?: boolean;
 }
 
 export const SidebarMenuItem = ({
@@ -37,9 +44,10 @@ export const SidebarMenuItem = ({
   contents,
   url,
   onClick,
+  isCollapsed = false,
 }: SidebarMenuItemProps) => {
   const [containsTree, setContainsTree] = useState(false);
-  const { activeSection } = useGlobalStore();
+  const { activeSection, setSidebarCollapsed } = useGlobalStore();
   
   // Use the navigation hook
   const {
@@ -65,6 +73,66 @@ export const SidebarMenuItem = ({
   const isCurrentSection = activeSection === url;
   const shouldShowActive = isCurrentSection && (isActive || isCurrentPath);
   const shouldShowClicked = isCurrentSection && clicked && isActive;
+
+  // Collapsed sidebar - show only icon with tooltip
+  if (isCollapsed) {
+    const handleCollapsedClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      
+      // If the item has accordion content, expand the sidebar first
+      if (containsTree) {
+        setSidebarCollapsed(false);
+        // Small delay to ensure sidebar expands before triggering the original click
+        setTimeout(() => {
+          handleParentClick();
+        }, 150);
+      } else {
+        // If no accordion, just navigate normally
+        handleParentClick();
+      }
+    };
+
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div
+              className={cn(
+                "flex justify-center items-center py-2 px-2 relative group/feature cursor-pointer w-full rounded-lg transition-all duration-200",
+                shouldShowActive 
+                  ? "bg-primary/10 dark:bg-white/10" 
+                  : "hover:bg-primary/5 dark:hover:bg-white/5"
+              )}
+              onClick={handleCollapsedClick}
+            >
+              <div
+                className={cn(
+                  "absolute left-0 top-1/2 -translate-y-1/2 w-1 rounded-full transition-all duration-400",
+                  shouldShowActive
+                    ? "bg-primary h-6 opacity-100"
+                    : "opacity-0 h-0"
+                )}
+              />
+              <div className="flex align-middle w-5 h-5">
+                <Image
+                  src={icon}
+                  alt={title}
+                  className="m-auto dark:invert"
+                  width={20}
+                  height={20}
+                />
+              </div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right" className="ml-2">
+            <p>{title}{containsTree ? " (Click to expand)" : ""}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  // Full sidebar - show complete menu items
 
   return (
     <div>

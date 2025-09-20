@@ -14,6 +14,7 @@ interface GlobalState {
   activeChildIndexServicesCard: string;
   activeSelection: string;
   isNotificationPanelActive: boolean;
+  isSidebarCollapsed: boolean;
   
   // Section management
   setActiveSection: (section: string) => void;
@@ -28,6 +29,7 @@ interface GlobalState {
   setActiveChildIndexServicesCard: (value: string) => void;
   setActiveSelection: (value: string) => void;
   setNotificationPanelActive: (value: boolean) => void;
+  setSidebarCollapsed: (value: boolean) => void;
   // Utility methods
   clearSectionStates: () => void;
 }
@@ -44,6 +46,7 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   activeChildIndexServicesCard: "Default",
   activeSelection: "Default",
   isNotificationPanelActive: false,
+  isSidebarCollapsed: false,
 
   // Actions
   setActiveSection: (section: string) => {
@@ -135,6 +138,9 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   setNotificationPanelActive: (value: boolean) =>
     set({ isNotificationPanelActive: value }),
 
+  setSidebarCollapsed: (value: boolean) =>
+    set({ isSidebarCollapsed: value }),
+
   clearSectionStates: () =>
     set({
       activeDashboardItem: "Default",
@@ -143,5 +149,6 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
       activePagesChild: "Default",
       activeIndexServicesCard: "Default",
       activeChildIndexServicesCard: "Default",
+      // Don't reset sidebar state when clearing sections
     }),
 }));
