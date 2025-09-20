@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@/hooks/useNavigation";
+import { useGlobalStore } from "@/states/GlobalState";
 
 import { TextSmallRegular } from "./typography";
 import {
@@ -38,6 +39,7 @@ export const SidebarMenuItem = ({
   onClick,
 }: SidebarMenuItemProps) => {
   const [containsTree, setContainsTree] = useState(false);
+  const { activeSection } = useGlobalStore();
   
   // Use the navigation hook
   const {
@@ -59,6 +61,11 @@ export const SidebarMenuItem = ({
     }
   }, [contents]);
 
+  // Only show active states if this is the current section
+  const isCurrentSection = activeSection === url;
+  const shouldShowActive = isCurrentSection && (isActive || isCurrentPath);
+  const shouldShowClicked = isCurrentSection && clicked && isActive;
+
   return (
     <div>
       <AccordionItem value={title}>
@@ -74,14 +81,14 @@ export const SidebarMenuItem = ({
               <div
                 className={cn(
                   "opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-primary/5 dark:bg-white/10 pointer-events-none rounded-[8px]",
-                  (isActive || isCurrentPath) && "opacity-100"
+                  shouldShowActive && "opacity-100"
                 )}
               />
               <div className="text-lg font-bold relative z-10 px-2 flex gap-1 align-middle">
                 <div
                   className={cn(
                     "absolute left-0 top-1/2 -translate-y-1/2 opacity-0 group-hover/feature:opacity-100 group-hover/feature:h-4 w-1 rounded-full rounded-br-full group-hover/feature:bg-primary transition-all duration-400 origin-center",
-                    (isActive || isCurrentPath)
+                    shouldShowActive
                       ? "bg-primary h-4 opacity-100 transition-all duration-400"
                       : "opacity-0 h-4 transition-all duration-400"
                   )}
@@ -92,7 +99,7 @@ export const SidebarMenuItem = ({
                     alt={"arrow_right"}
                     className={cn(
                       "m-auto dark:invert",
-                      clicked && isActive
+                      shouldShowClicked
                         ? "rotate-90 transition-all duration-300"
                         : "rotate-0 transition-all duration-300",
                       containsTree ? "opacity-100" : "opacity-0"
@@ -125,14 +132,14 @@ export const SidebarMenuItem = ({
                 <div
                   className={cn(
                     "opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-primary/5 dark:bg-white/10 pointer-events-none rounded-[8px]",
-                    (isActive || isCurrentPath) && "opacity-100"
+                    shouldShowActive && "opacity-100"
                   )}
                 />
                 <div className="text-lg font-bold relative z-10 px-2 flex gap-1 align-middle">
                   <div
                     className={cn(
                       "absolute left-0 top-1/2 -translate-y-1/2 opacity-0 group-hover/feature:opacity-100 group-hover/feature:h-4 w-1 rounded-full rounded-br-full group-hover/feature:bg-primary transition-all duration-400 origin-center",
-                      (isActive || isCurrentPath)
+                      shouldShowActive
                         ? "bg-primary h-4 opacity-100 transition-all duration-400"
                         : "opacity-0 h-4 transition-all duration-400"
                     )}
@@ -143,7 +150,7 @@ export const SidebarMenuItem = ({
                       alt={"arrow_right"}
                       className={cn(
                         "m-auto dark:invert",
-                        clicked && isActive
+                        shouldShowClicked
                           ? "rotate-90 transition-all duration-300"
                           : "rotate-0 transition-all duration-300",
                         containsTree ? "opacity-100" : "opacity-0"
@@ -175,7 +182,7 @@ export const SidebarMenuItem = ({
             onClick={(e) => e.stopPropagation()}
           >
             {contents?.map((item, index) => {
-              const childActive = isChildActive(item.title);
+              const childActive = isCurrentSection && isChildActive(item.title);
               
               return (
                 <div

@@ -1,6 +1,6 @@
 "use client";
 import { useGlobalStore } from "@/states/GlobalState";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SidebarMenuItem } from "./sideBarMenuItem";
 import { TextSmallRegular } from "./typography";
 import { Accordion } from "./ui/accordion";
@@ -28,35 +28,63 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
   const [accordionValue, setAccordionValue] = useState<string>("");
   const allowStateChange = useRef(true);
 
-  const { activeIndexServicesCard, setActiveIndexServicesCard, setActiveChildIndexServicesCard } = useGlobalStore();
+  const { 
+    activeIndexServicesCard, 
+    setActiveIndexServicesCard,
+    setActiveSection,
+    activeSection
+  } = useGlobalStore();
+
+  // Don't auto-set section here - let navigation handle it
+
+  // Update accordion when active item changes
+  useEffect(() => {
+    // Only update accordion if the current section is active
+    if (activeSection === header) {
+      const activeItem = (content as MenuItem[]).find(
+        item => item.title === activeIndexServicesCard
+      );
+      
+      if (activeItem && activeItem.contents && activeItem.contents.length > 0) {
+        setAccordionValue(activeIndexServicesCard);
+      } else {
+        setAccordionValue("");
+      }
+    } else {
+      // Clear accordion if this section is not active
+      setAccordionValue("");
+    }
+  }, [activeIndexServicesCard, activeSection, header, content]);
 
   const handleActiveIndex = (index: string) => {
     allowStateChange.current = true; // Allow this state change
     
-    // Clear child selection when switching to a different parent menu item
-    // This ensures previous child selections don't remain highlighted
-    setActiveChildIndexServicesCard("Default");
+    // The navigation hook will handle section setting
     
-    if (index != activeIndexServicesCard) {
+    if (index != activeIndexServicesCard || activeSection !== header) {
       setclicked(true);
       setAccordionValue(index); // Open the accordion
     } else {
       setclicked(!clicked);
       setAccordionValue(clicked ? "" : index); // Toggle accordion
     }
-    console.log(index)
+    
+    console.log(`Setting active item: ${index} for section: ${header}`);
     setActiveIndexServicesCard(index);
-    console.log("activeIndexServicesCard",activeIndexServicesCard);
+    console.log("activeIndexServicesCard", activeIndexServicesCard);
   };
 
   const handleAccordionValueChange = (value: string) => {
     // Only allow state changes that are explicitly permitted
-    if (allowStateChange.current) {
+    if (allowStateChange.current && activeSection === header) {
       setAccordionValue(value);
       allowStateChange.current = false; // Reset flag
     }
     // Ignore all other state changes (like those from child clicks)
   };
+
+  // Only show active highlights if this is the current section
+  const isCurrentSection = activeSection === header;
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -69,25 +97,22 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
         <Accordion 
           type="single" 
           collapsible 
-          value={accordionValue}
+          value={isCurrentSection ? accordionValue : ""}
           onValueChange={handleAccordionValueChange}
         >
           {(content as MenuItem[]).map((item: MenuItem, index: number) => {
             return (
-              // <div key={index} className="flex">
-              // <ServiceCard image={item.image} title={item.title} />
               <SidebarMenuItem
                 contents={item.contents}
                 title={item.title}
                 index={index}
-                isActive={item.title === activeIndexServicesCard}
+                isActive={isCurrentSection && item.title === activeIndexServicesCard}
                 onClick={() => handleActiveIndex(item.title)}
-                clicked={accordionValue === item.title}
+                clicked={isCurrentSection && accordionValue === item.title}
                 key={index + 1}
                 url={header}
                 icon={item.icon}
               />
-              // </div>
             );
           })}
         </Accordion>

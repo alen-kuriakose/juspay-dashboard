@@ -53,10 +53,10 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
       )}
     >
       <div className="flex gap-2">
-        <div className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
+        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
           <Image src={sidebar} alt="" width={20} height={20} />
-        </div>
-        <div className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:flex ">
+        </button>
+        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:flex ">
           <Image
             src={star}
             alt=""
@@ -64,7 +64,7 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
             height={20}
             onClick={() => handleFavSelection()}
           />
-        </div>
+        </button>
 
         <Breadcrumb className="px-2 hidden lg:block">
           <BreadcrumbList>
@@ -95,23 +95,23 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
       <div className="flex gap-2 w-full h-full md:w-auto align-middle items-center">
         <Search keyboardActionReq={true} />
 
-        <div
+        <button
           className={cn(
             "p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out  "
           )}
           onClick={() => handleThemeChange()}
         >
           <Image src={sun} alt="" width={20} height={20} />
-        </div>
-        <div className="p-1 dark:invert  transition-transform duration-200 ease-in-out">
+        </button>
+        <button className="p-1 dark:invert  transition-transform duration-200 ease-in-out">
           <Image src={clock} alt="" width={20} height={20} />
-        </div>
-        <div
+        </button>
+        <button
           className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden xl:block"
           onClick={() => activateNotification()}
         >
           <Image src={bell} alt="" width={20} height={20} />
-        </div>
+        </button>
         <Sheet>
           <SheetTrigger className="p-0 border-0">
             <div className=" dark:invert md:hover:scale-105 transition-transform duration-200 ease-in-out xl:hidden block">
@@ -122,9 +122,9 @@ export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
             <NotificationPanel />
           </SheetContent>
         </Sheet>
-        <div className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
+        <button className="p-1 dark:invert hover:scale-105 transition-transform duration-200 ease-in-out hidden md:block">
           <Image src={sidebar} alt="" width={20} height={20} />
-        </div>
+        </button>
       </div>
     </nav>
   );

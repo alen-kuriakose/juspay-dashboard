@@ -34,7 +34,12 @@ export const useNavigation = ({
   contents,
   onClick,
 }: UseNavigationProps): UseNavigationReturn => {
-  const { activeChildIndexServicesCard, setActiveChildIndexServicesCard } = useGlobalStore();
+  const { 
+    activeChildIndexServicesCard, 
+    setActiveChildIndexServicesCard,
+    setActiveSection,
+    activeSection
+  } = useGlobalStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -80,19 +85,34 @@ export const useNavigation = ({
       return pathname === '/dashboard';
     }
     
+    // Only consider this path active if we're in the correct section
+    const isCorrectSection = activeSection === url;
+    if (!isCorrectSection) {
+      return false;
+    }
+    
     return pathname.startsWith(parentRoute);
-  }, [pathname, getParentRoute, title]);
+  }, [pathname, getParentRoute, title, activeSection, url]);
 
   // Check if a specific child is active
   const isChildActive = useCallback((childTitle: string) => {
     const childRoute = getChildRoute(childTitle);
-    return pathname === childRoute || activeChildIndexServicesCard === childTitle;
-  }, [pathname, activeChildIndexServicesCard, getChildRoute]);
+    const pathMatches = pathname === childRoute;
+    const stateMatches = activeChildIndexServicesCard === childTitle;
+    const isCorrectSection = activeSection === url;
+    
+    return isCorrectSection && (pathMatches || stateMatches);
+  }, [pathname, activeChildIndexServicesCard, getChildRoute, activeSection, url]);
 
   // Handle child navigation
   const handleChildClick = useCallback((data: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Only set section if it's different to prevent infinite loops
+    if (activeSection !== url) {
+      setActiveSection(url);
+    }
     
     // Update child active state
     setActiveChildIndexServicesCard(data);
@@ -101,15 +121,18 @@ export const useNavigation = ({
     const childRoute = getChildRoute(data);
     router.push(childRoute);
     
+    console.log(`Navigating to child: ${data} in section: ${url}`);
+    
     // Don't call the parent onClick when clicking children
     // This prevents interference with accordion state
-  }, [setActiveChildIndexServicesCard, router, getChildRoute]);
+  }, [setActiveChildIndexServicesCard, router, getChildRoute, setActiveSection, url, activeSection]);
 
   // Handle parent navigation
   const handleParentClick = useCallback(() => {
-    // Clear child selection when switching to a different parent
-    // This ensures that previous child selections don't remain highlighted
-    setActiveChildIndexServicesCard("Default");
+    // Only set section if it's different to prevent infinite loops
+    if (activeSection !== url) {
+      setActiveSection(url);
+    }
     
     // Call the external onClick handler if provided
     onClick?.();
@@ -118,8 +141,10 @@ export const useNavigation = ({
     if (!contents || contents.length === 0) {
       const parentRoute = getParentRoute();
       router.push(parentRoute);
+      
+      console.log(`Navigating to parent: ${title} in section: ${url}`);
     }
-  }, [onClick, contents, router, getParentRoute, setActiveChildIndexServicesCard]);
+  }, [onClick, contents, router, getParentRoute, setActiveSection, url, title, activeSection]);
 
   return {
     // State

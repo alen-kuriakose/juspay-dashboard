@@ -912,16 +912,16 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
       )}
       
       <CardContent className="p-0  overflow-x-scroll md:overflow-auto">
-        <Table className="pb-0 min-w-[800px] md:min-w-full">
+        <Table className="pb-0 min-w-[800px] md:min-w-full table-fixed">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12 px-3 py-[11px] md:w-12">
+              <TableHead className="w-12 px-3 py-[11px]">
                 <Checkbox 
                   checked={selectAll}
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="w-20 px-2 py-[11px] md:w-24 md:px-3">
+              <TableHead className="w-24 px-2 py-[11px] md:px-3">
                 Order ID
                 {sortConfig.key === 'orderId' && (
                   <span className="ml-1 text-xs">
@@ -929,7 +929,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                   </span>
                 )}
               </TableHead>
-              <TableHead className="w-48 px-2 py-[11px] md:w-32 md:px-3">
+              <TableHead className="w-48 px-2 py-[11px] md:px-3">
                 User
                 {sortConfig.key === 'user' && (
                   <span className="ml-1 text-xs">
@@ -937,7 +937,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                   </span>
                 )}
               </TableHead>
-              <TableHead className="w-28 px-2 py-[11px] md:w-36 md:px-3">
+              <TableHead className="w-36 px-2 py-[11px] md:px-3">
                 Project
                 {sortConfig.key === 'project' && (
                   <span className="ml-1 text-xs">
@@ -945,8 +945,8 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                   </span>
                 )}
               </TableHead>
-              <TableHead className="w-32 px-2 py-[11px] md:w-64 md:px-3">Address</TableHead>
-              <TableHead className="w-24 px-2 py-[11px] md:w-28 md:px-3">
+              <TableHead className="w-64 px-2 py-[11px] md:px-3">Address</TableHead>
+              <TableHead className="w-28 px-2 py-[11px] md:px-3">
                 Date
                 {sortConfig.key === 'date' && (
                   <span className="ml-1 text-xs">
@@ -954,7 +954,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                   </span>
                 )}
               </TableHead>
-              <TableHead className="w-20 px-2 py-[11px] md:w-24 md:px-3">
+              <TableHead className="w-24 px-2 py-[11px] md:px-3">
                 Status
                 {sortConfig.key === 'status' && (
                   <span className="ml-1 text-xs">
@@ -962,7 +962,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                   </span>
                 )}
               </TableHead>
-              <TableHead className="w-10 px-1 py-[11px] md:w-12 md:px-3"></TableHead>
+              <TableHead className="w-12 px-1 py-[11px] md:px-3"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="border-b">
@@ -1016,17 +1016,17 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     >
                       <TableCell 
                         onClick={(e) => e.stopPropagation()} 
-                        className="w-12 md:w-12 rounded-l-xl"
+                        className="w-12 rounded-l-xl"
                       >
                         <Checkbox 
                           checked={isSelected}
                           onCheckedChange={(checked) => handleRowSelect(globalIndex, checked as boolean)}
                         />
                       </TableCell>
-                      <TableCell className="w-20 px-2 md:w-24 md:px-3">
+                      <TableCell className="w-24 px-2 md:px-3">
                         <div className="truncate">{order.orderId}</div>
                       </TableCell>
-                      <TableCell className="w-24 px-2 md:w-48 md:px-3">
+                      <TableCell className="w-48 px-2 md:px-3">
                         <div className="flex gap-1 items-center">
                           <div className="flex-shrink-0">
                             <Image src={order.icon} alt="user" className="w-6 h-6 md:w-8 md:h-8" />
@@ -1034,24 +1034,38 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                           <span className="truncate">{order.user}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="w-28 px-2 md:w-36 md:px-3">
+                      <TableCell className="w-36 px-2 md:px-3">
                         <div className="truncate">{order.project}</div>
                       </TableCell>
-                      <TableCell className="w-48 px-2 md:w-64 md:px-3">
+                      <TableCell className="w-64 px-2 md:px-3">
                         <div className="flex items-center">
                           <span className="truncate">{order.address}</span>
                           {activeRow == index ? (
-                            <Image
-                              src={clipboard}
-                              alt="copy"
-                              className="dark:invert ml-1 flex-shrink-0 w-3 h-3 md:w-4 md:h-4"
-                            />
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(order.address).then(() => {
+                                  // You could add a toast notification here
+                                  console.log('Address copied to clipboard:', order.address);
+                                }).catch((err) => {
+                                  console.error('Failed to copy address:', err);
+                                });
+                              }}
+                              className="ml-1 flex-shrink-0 w-3 h-3 md:w-4 md:h-4 hover:bg-gray-200 dark:hover:bg-gray-700 rounded p-0.5 transition-colors"
+                              title="Copy address to clipboard"
+                            >
+                              <Image
+                                src={clipboard}
+                                alt="copy"
+                                className="dark:invert w-full h-full"
+                              />
+                            </button>
                           ) : (
                             ""
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="w-24 px-2 md:w-48 md:px-3">
+                      <TableCell className="w-28 px-2 md:px-3">
                         <div className="flex gap-1 items-center">
                           <div className="flex-shrink-0">
                             <Image
@@ -1064,7 +1078,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                         </div>
                       </TableCell>
 
-                      <TableCell className="w-36 px-2 md:w-32 md:px-3">
+                      <TableCell className="w-24 px-2 md:px-3">
                         <StatusIndicator
                           className="text-xs"
                           variant={
@@ -1076,7 +1090,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                       </TableCell>
                       <TableCell
                         className={cn(
-                          "w-10 px-1 text-center md:w-12 md:px-3 rounded-r-xl",
+                          "w-12 px-1 text-center md:px-3 rounded-r-xl",
                           activeRow == index ? "opacity-100" : "opacity-0"
                         )}
                         onClick={(e) => e.stopPropagation()}
@@ -1130,7 +1144,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
         </Table>
         {filteredData.length > 0 && totalPages > 1 && (
           <div className="pt-3 w-full">
-            <Pagination className=" mt-4 justify-end">
+            <Pagination className=" mt-4 justify-end pb-8">
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious
