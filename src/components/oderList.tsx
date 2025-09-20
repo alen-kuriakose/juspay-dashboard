@@ -711,18 +711,18 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     </div>
                   </div>
 
-                  <SheetFooter className="border-t border-[#f0f0f0] dark:border-[#374151] pt-4">
+                  <SheetFooter className="border-t border-[#f0f0f0] dark:border-[#374151] pt-4 gap-2">
                     <Button
                       variant="outline"
                       onClick={clearAllFilters}
-                      className="bg-[#ffffff] dark:bg-[#1a1a1a] border-[#e5e7eb] dark:border-[#374151] text-[#6b7280] dark:text-[#9ca3af] hover:!text-[#1a1a1a] hover:!bg-[#f9fafb] dark:hover:bg-[#374151] dark:hover:text-[#fafafa]"
+                      className="bg-[#ffffff] dark:bg-[#1a1a1a] border-[#e5e7eb] dark:border-[#374151] text-[#6b7280] dark:text-[#9ca3af] hover:!text-[#1a1a1a] hover:!bg-[#f9fafb] dark:hover:bg-[#374151] dark:hover:text-[#fafafa] md:w-48"
                       disabled={!hasActiveFilters()}
                     >
                       Clear All
                     </Button>
                     <Button 
                       onClick={() => setIsFilterOpen(false)}
-                      className="bg-[#1a1a1a] dark:bg-[#fafafa] text-[#fafafa] dark:text-[#1a1a1a] hover:bg-[#374151] dark:hover:bg-[#e5e7eb]"
+                      className="bg-[#1a1a1a] dark:bg-[#fafafa] text-[#fafafa] dark:text-[#1a1a1a] hover:bg-[#374151] dark:hover:bg-[#e5e7eb] md:w-48"
                     >
                       Apply Filters
                     </Button>
