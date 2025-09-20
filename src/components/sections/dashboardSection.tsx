@@ -1,11 +1,4 @@
-/**
- * The `DashboardSection` function renders a dashboard layout with various charts and widgets for an
- * eCommerce application.
- * @returns The `DashboardSection` component is being returned. It consists of various chart components
- * such as `WidgetChart`, `StackedBarChart`, `AreaChartComponent`, `WorldMap`, `TableChart`, and
- * `PieChartComponent` arranged in a grid layout within a `div` element. The component also includes a
- * `TextSmallSemibold` component for displaying the text "eCommerce".
- */
+
 import { WidgetChartData } from "@/utils/helper";
 import {
   AreaChartComponent,
