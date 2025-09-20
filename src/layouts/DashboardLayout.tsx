@@ -4,12 +4,30 @@ import { DashboardSection } from "@/components/sections";
 import { Header4xlSemibold, TextLgRegular } from "@/components/typography";
 import { useGlobalStore } from "@/states/GlobalState";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { SideBarLayout } from "./SideBarLayout";
 import { orderHistory } from "@/utils/helper";
 
 export function DashboardLayout() {
-  const { isNotificationPanelActive, activeIndexServicesCard, activeChildIndexServicesCard } = useGlobalStore();
+  const { isNotificationPanelActive, activeIndexServicesCard, activeChildIndexServicesCard, setActiveChildIndexServicesCard } = useGlobalStore();
   const pathname = usePathname();
+
+  // Reset child state when navigating to a route that doesn't have a child
+  useEffect(() => {
+    const pathSegments = pathname.split("/").filter((segment) => segment);
+    
+    // If we're on base dashboard (/dashboard) or a direct route (/dashboard/something) 
+    // without a child, reset the child state
+    if (pathSegments.length <= 2 && activeChildIndexServicesCard !== "Default") {
+      // Only reset if we're not on a child route
+      const hasMatchingChild = pathSegments.length === 2 && 
+        decodeURIComponent(pathSegments[1]).toLowerCase() === activeChildIndexServicesCard.toLowerCase();
+      
+      if (!hasMatchingChild) {
+        setActiveChildIndexServicesCard("Default");
+      }
+    }
+  }, [pathname, activeChildIndexServicesCard, setActiveChildIndexServicesCard]);
 
   const generateBreadcrumbs = () => {
     const pathSegments = pathname.split("/").filter((segment) => segment);

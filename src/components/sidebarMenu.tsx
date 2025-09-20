@@ -28,10 +28,14 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
   const [accordionValue, setAccordionValue] = useState<string>("");
   const allowStateChange = useRef(true);
 
-  const { activeIndexServicesCard, setActiveIndexServicesCard } = useGlobalStore();
+  const { activeIndexServicesCard, setActiveIndexServicesCard, setActiveChildIndexServicesCard } = useGlobalStore();
 
   const handleActiveIndex = (index: string) => {
     allowStateChange.current = true; // Allow this state change
+    
+    // Clear child selection when switching to a different parent menu item
+    // This ensures previous child selections don't remain highlighted
+    setActiveChildIndexServicesCard("Default");
     
     if (index != activeIndexServicesCard) {
       setclicked(true);
