@@ -589,7 +589,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                 </SheetContent>
               </Sheet>
             </div>
-            <div className="p-1">
+            <div className="p-1 h-auto overflow-auto">
               <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
                 <SheetTrigger asChild>
                   <button className={`p-1 hover:!text-[#1a1a1a] hover:!bg-[#f5f5f5] dark:hover:bg-[#374151] rounded relative transition-colors ${hasActiveFilters() ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-[#6b7280] dark:text-[#9ca3af]'}`} aria-label="Filter orders">
@@ -599,7 +599,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     )}
                   </button>
                 </SheetTrigger>
-                <SheetContent className="w-full max-w-[320px] xs:max-w-[350px] sm:max-w-[540px] bg-[#fafafa] dark:bg-[#0a0a0a] border-l border-[#f0f0f0] dark:border-[#1a1a1a] ">
+                <SheetContent className="h-auto overflow-auto w-full max-w-[320px] xs:max-w-[350px] sm:max-w-[540px] bg-[#fafafa] dark:bg-[#0a0a0a] border-l border-[#f0f0f0] dark:border-[#1a1a1a] ">
                   <SheetHeader>
                     <SheetTitle className="text-[#1a1a1a] dark:text-[#fafafa] text-sm xs:text-base">Filter Orders</SheetTitle>
                     <SheetDescription className="text-[#6b7280] dark:text-[#9ca3af] text-xs xs:text-sm">
