@@ -1,71 +1,90 @@
-# NextJS Dashboard Project
+# Juspay Dashboard
 
-This project is a dashboard application built with Next.js, Tailwind CSS, and Recharts.
+Dashboard application built with Next.js for Juspay Technologies assignment. Features interactive charts, order management, and analytics interface.
 
-## Technologies Used
+## Features
 
-- [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Recharts](https://recharts.org/)
+- Interactive dashboard with charts and analytics
+- Order tracking and management
+- Dark/Light theme support
+- Responsive design for mobile and desktop
+
+## Tech Stack
+
+- Next.js with App Router
+- TypeScript
+- Tailwind CSS
+- Recharts for charts
+- Shad CN components
+- Zustand for state management
+- Vercel Analytics
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 14 or later)
-- npm or yarn
+- Node.js 18 or later
+- npm, yarn, or pnpm
 
 ### Installation
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/your-username/your-repo-name.git
-   ```
+```bash
+git clone https://github.com/alen-kuriakose/juspay-dashboard.git
+cd juspay-dashboard
+```
 
-2. Navigate to the project directory:
-   ```
-   cd your-repo-name
-   ```
+2. Install dependencies:
+```bash
+npm install
+```
 
-3. Install dependencies:
-   ```
-   npm install
-   
-   ```
+3. Run the development server:
+```bash
+npm run dev
+```
 
-4. Run the development server:
-   ```
-   npm run dev
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-   ```
+## Scripts
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Features
-
-- Responsive dashboard layout
-- Interactive charts using Recharts
-- Styled with Tailwind CSS
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
 ## Project Structure
 
 ```
-your-project/
-├── components/
-├── pages/
-├── public/
-├── styles/
-├── .gitignore
-├── next.config.js
-├── package.json
-├── README.md
-└── tailwind.config.js
+src/
+├── app/                 # Next.js app router pages
+├── components/          # Reusable components
+│   ├── charts/         # Chart components
+│   ├── ui/             # Base UI components
+│   └── sections/       # Page sections
+├── layouts/            # Layout components
+├── hooks/              # Custom hooks
+├── states/             # Global state
+├── utils/              # Helper functions
+└── assets/             # Images and icons
 ```
 
-## Contributing
+## Key Components
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- **Charts**: Area chart, pie chart, bar chart, world map
+- **Dashboard**: Main analytics dashboard
+- **Orders**: Order management interface
+- **Navigation**: Sidebar and breadcrumb navigation
+- **Themes**: Dark/light mode switcher
 
-## License
+## Deployment
 
-This project is licensed under the [MIT License](LICENSE).
+The app is optimized for Vercel deployment:
+
+1. Push to GitHub
+2. Connect to Vercel
+3. Deploy automatically
+
+## Author
+
+Alen Kuriakose - [GitHub](https://github.com/alen-kuriakose)
